@@ -22,3 +22,4 @@ spring:
           timeout: 5
           clone-on-start: true
           force-pull: true
+          skipSslValidation: true  # SSL 검증을 건너뛰는 옵션
