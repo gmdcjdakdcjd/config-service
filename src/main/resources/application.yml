@@ -13,16 +13,16 @@ spring:
     name: config-service
   lifecycle:
     timeout-per-shutdown-phase: 15s
-  cloud:
-    config:
-      server:
-        git:
-          uri: https://github.com/gmdcjdakdcjd/config-repo
-          default-label: main
-          timeout: 5
-          clone-on-start: true
-          force-pull: true
-          skipSslValidation: true  # SSL 검증을 건너뛰는 옵션
+#  cloud:
+#    config:
+#      server:
+#        git:
+#          uri: https://github.com/gmdcjdakdcjd/config-repo
+#          default-label: main
+#          timeout: 5
+#          clone-on-start: true
+#          force-pull: true
+#          skipSslValidation: true  # SSL 검증을 건너뛰는 옵션
 # Zipkin 설정 추가
 #  sleuth:
 #    sampler:
