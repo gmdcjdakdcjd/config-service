@@ -20,6 +20,11 @@ ext {
 
 dependencies {
     implementation 'org.springframework.cloud:spring-cloud-config-server'
+
+    // Zipkin과 Sleuth를 사용하기 위한 의존성 추가
+    implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
+    implementation 'org.springframework.cloud:spring-cloud-starter-zipkin'
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
@@ -30,7 +35,7 @@ dependencyManagement {
 }
 
 bootBuildImage {
-	builder = "docker.io/paketobuildpacks/builder-jammy-base"
+    builder = "docker.io/paketobuildpacks/builder-jammy-base"
     imageName = "${project.name}"
     environment = ["BP_JVM_VERSION": "17"]
 
@@ -44,5 +49,5 @@ bootBuildImage {
 }
 
 tasks.named('test') {
-	useJUnitPlatform()
+    useJUnitPlatform()
 }
