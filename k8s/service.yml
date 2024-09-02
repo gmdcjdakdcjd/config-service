@@ -4,11 +4,16 @@ metadata:
   name: config-service
   labels:
     app: config-service
+    version: config
+    service: config
 spec:
   type: ClusterIP
   selector:
     app: config-service
+    version: config
+    service: config-service
   ports:
-  - protocol: TCP
-    port: 80
-    targetPort: 8888
+    - protocol: TCP
+      port: 80
+      name: tcp
+      targetPort: 8888
