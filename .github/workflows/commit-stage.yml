@@ -16,28 +16,17 @@ jobs:
     steps:
       - name: Checkout source code
         uses: actions/checkout@v4
-
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 17
           cache: gradle
-
-      # SSL 인증서 추가 단계
-      - name: Add SSL certificate
-        run: |
-          echo "${{ secrets.SSL_CERTIFICATE }}" > /usr/local/share/ca-certificates/custom-cert.crt
-          update-ca-certificates
-        # 위 단계에서는 GitHub Secrets에 저장된 SSL 인증서를 가져와 시스템에 추가합니다.
-        # 'SSL_CERTIFICATE'라는 이름의 GitHub Secret을 미리 만들어두어야 합니다.
-
       - name: Build, unit tests and integration tests
         run: |
           chmod +x gradlew
           ./gradlew build
         continue-on-error: true  # 테스트 실패 시에도 계속 진행
-
       - name: Code vulnerability scanning
         uses: anchore/scan-action@v3
         id: scan
@@ -45,22 +34,18 @@ jobs:
           path: "${{ github.workspace }}"
           fail-build: false
           severity-cutoff: high
-
       - name: Upload vulnerability report
         uses: github/codeql-action/upload-sarif@v3
         if: success() || failure()
         with:
           sarif_file: ${{ steps.scan.outputs.sarif }}
-
       - name: Setup tools
         uses: alexellis/setup-arkade@v3
-
       - name: Install tools
         uses: alexellis/arkade-get@master
         with:
           kustomize: latest
           kubeconform: latest
-
       - name: Validate Kubernetes manifests
         run: |
           kustomize build k8s | kubeconform --strict -
@@ -77,20 +62,17 @@ jobs:
     steps:
       - name: Checkout source code
         uses: actions/checkout@v4
-
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 17
           cache: gradle
-
       - name: Build container image
         run: |
           chmod +x gradlew
           ./gradlew bootBuildImage \
             --imageName ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
-
       - name: OCI image vulnerability scanning
         uses: anchore/scan-action@v3
         id: scan
@@ -98,19 +80,16 @@ jobs:
           image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
           fail-build: false
           severity-cutoff: high
-
       - name: Upload vulnerability report
         uses: github/codeql-action/upload-sarif@v3
         if: success() || failure()
         with:
           sarif_file: ${{ steps.scan.outputs.sarif }}
-
       - name: Log into container registry
         uses: docker/login-action@v3
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Publish container image
         run: docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
