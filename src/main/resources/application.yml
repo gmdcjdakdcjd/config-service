@@ -14,10 +14,10 @@ spring:
   lifecycle:
     timeout-per-shutdown-phase: 15s
   cloud:
-#    config:
-#      server:
-#        native:
-#          searchLocations: file:///path/to/config-repo
+    config:
+      server:
+        native:
+          searchLocations: file:///path/to/config-repo
 
 #    kubernetes:
 #      config:
@@ -28,12 +28,12 @@ spring:
 #          - name: my-configmap
 #            namespace: default
 
-    config:
-      server:
-        git:
-          uri: https://github.com/gmdcjdakdcjd/config-repo
-          default-label: main
-          timeout: 5
-          clone-on-start: true
-          force-pull: true
-          skip-ssl-validation: true  # SSL 검증을 건너뛰는 옵션
+#    config:
+#      server:
+#        git:
+#          uri: https://github.com/gmdcjdakdcjd/config-repo
+#          default-label: main
+#          timeout: 5
+#          clone-on-start: true
+#          force-pull: true
+#          skip-ssl-validation: true  # SSL 검증을 건너뛰는 옵션
