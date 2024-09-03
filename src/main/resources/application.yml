@@ -14,12 +14,21 @@ spring:
   lifecycle:
     timeout-per-shutdown-phase: 15s
   cloud:
-    config:
-      server:
-        git:
-          uri: https://github.com/gmdcjdakdcjd/config-repo
-          default-label: main
-          timeout: 5
-          clone-on-start: true
-          force-pull: true
-          skipSslValidation: true  # SSL 검증을 건너뛰는 옵션
+    kubernetes:
+      config:
+        enabled: true
+        name: my-configmap # 참조하려는 ConfigMap의 이름
+        namespace: default # ConfigMap이 존재하는 네임스페이스
+        sources:
+          - name: my-configmap
+            namespace: default
+
+#    config:
+#      server:
+#        git:
+#          uri: https://github.com/gmdcjdakdcjd/config-repo
+#          default-label: main
+#          timeout: 5
+#          clone-on-start: true
+#          force-pull: true
+#          skipSslValidation: true  # SSL 검증을 건너뛰는 옵션
