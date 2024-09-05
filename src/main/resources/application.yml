@@ -18,8 +18,8 @@ spring:
       server:
         git:
           uri: https://github.com/gmdcjdakdcjd/config-repo
-          username: gmdcjdakdcjd
-          password: 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
+          username: ${GIT_USERNAME}
+          password: ${GIT_PASSWORD}
           default-label: main
           timeout: 5
           clone-on-start: true
