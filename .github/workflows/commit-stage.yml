@@ -4,7 +4,7 @@ on: push
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: gmdcjdakdcjd/config-service
-  VERSION: v10
+  VERSION: v21
 
 jobs:
   build:
